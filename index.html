@@ -1,10 +1,149 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>HackOnVibe — Team DX</title>
-<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#10051f;color:#fff8ff;font-family:Inter,system-ui,sans-serif;text-align:center}h1{font-size:2.5rem;margin:0 0 .4em;color:#b8860b}p{color:#c8b9d8;max-width:34rem;line-height:1.6}code{background:rgba(255,255,255,.08);padding:2px 7px;border-radius:6px}</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team DX — AI Churn Predictor</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #10051f;
+            color: #fff8ff;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .container {
+            background: #1c0b36;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid #3d1c73;
+        }
+        h2 {
+            margin-top: 0;
+            color: #ffb8ff;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #4d2493;
+            background: #250f46;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            background: #ff33aa;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 1rem;
+        }
+        button:hover {
+            background: #ff55bb;
+        }
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #250f46;
+            display: none;
+            text-align: center;
+            border: 1px dashed #ff33aa;
+        }
+        .risk-high { color: #ff4444; font-weight: bold; font-size: 1.3rem; }
+        .risk-low { color: #00ff88; font-weight: bold; font-size: 1.3rem; }
+    </style>
 </head>
-<body><main>
-<h1>Hello World from Team DX! 🚀</h1>
-<p>Sahaj is officially live. The CI/CD pipeline test is successful! Now ready to build the AI-assisted product.</p>
-</main></body>
+<body>
+
+<div class="container">
+    <h2>⚡ Telecom Churn Predictor AI</h2>
+    <p style="font-size: 0.85rem; text-align: center; color: #aaa; margin-bottom: 1.5rem;">
+        Team DX Analytics Micro-Product
+    </p>
+
+    <div class="form-group">
+        <label for="tenure">Tenure (Months)</label>
+        <input type="number" id="tenure" placeholder="e.g., 12" value="6">
+    </div>
+
+    <div class="form-group">
+        <label for="charges">Monthly Charges ($)</label>
+        <input type="number" id="charges" placeholder="e.g., 75" value="85">
+    </div>
+
+    <div class="form-group">
+        <label for="contract">Contract Type</label>
+        <select id="contract">
+            <option value="month-to-month">Month-to-month</option>
+            <option value="one-year">One Year</option>
+            <option value="two-year">Two Year</option>
+        </select>
+    </div>
+
+    <button onclick="simulateChurn()">Analyze Behavioral Risk</button>
+
+    <div id="result" class="result-box">
+        <div id="riskScore"></div>
+        <p id="riskDesc" style="font-size: 0.9rem; margin-top: 0.5rem; color: #ddd;"></p>
+    </div>
+</div>
+
+<script>
+    function simulateChurn() {
+        const tenure = parseFloat(document.getElementById('tenure').value) || 0;
+        const charges = parseFloat(document.getElementById('charges').value) || 0;
+        const contract = document.getElementById('contract').value;
+
+        // Lightweight simulation logic based on common telecom churn models
+        let baseRisk = 30;
+        
+        if (contract === 'month-to-month') baseRisk += 35;
+        if (tenure < 12) baseRisk += 20;
+        if (charges > 70) baseRisk += 15;
+        
+        let finalRisk = Math.min(Math.max(baseRisk, 5), 98);
+        
+        const resultBox = document.getElementById('result');
+        const riskScore = document.getElementById('riskScore');
+        const riskDesc = document.getElementById('riskDesc');
+        
+        resultBox.style.display = 'block';
+        
+        if (finalRisk > 60) {
+            riskScore.className = 'risk-high';
+            riskScore.innerText = `High Risk: ${finalRisk}%`;
+            riskDesc.innerText = "🚨 Action Required: High risk of standard subscription churn detected. Suggesting targeted promotional retention offer.";
+        } else {
+            riskScore.className = 'risk-low';
+            riskScore.innerText = `Low Risk: ${finalRisk}%`;
+            riskDesc.innerText = "✅ Healthy Account: Customer exhibits consistent usage patterns and stable retention metrics.";
+        }
+    }
+</script>
+
+</body>
 </html>
